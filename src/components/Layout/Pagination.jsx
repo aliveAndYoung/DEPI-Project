@@ -1,5 +1,5 @@
 import React from 'react';
-import Pagination from 'react-bootstrap/Pagination';
+import Pagination from 'react-bootstrap/pagination';
 
 
 const PaginationComponent = ({ currentPage, totalPages, onPageChange, darkMode }) => {
