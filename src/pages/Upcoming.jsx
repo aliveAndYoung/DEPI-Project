@@ -1,12 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { fetchUpcoming, IMG_PATH } from '../API/TMDB';
+import { fetchUpcoming, IMG_PATH } from '../API/TMDB.jsx';
+import PaginationComponent from '../components/Layout/Pagination';
 
-const Upcoming = () => {
+const Upcoming = (
+  
+  {darkMode}
+) => {
+  const [page, setPage] = useState(1);
   const { data, error, isLoading } = useQuery({
-    queryKey: ['upcoming'],
+    queryKey: ['upcoming', page],
     queryFn: fetchUpcoming,
   });
+
+  const totalPages = data?.total_pages || 1;
+
 
   if (isLoading) {
     return (
@@ -28,7 +36,7 @@ const Upcoming = () => {
     <div className="container mt-4">
       <h1 className="text-center mb-4">Upcoming Movies and TV Shows</h1>
       <div className="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
-        {data.map((movie) => (
+        {data.results?.map((movie) => (
           <div key={movie.id} className="col">
             <div className="card h-100">
               <img src={IMG_PATH + movie.poster_path} className="card-img-top" alt={movie.title} />
@@ -39,6 +47,15 @@ const Upcoming = () => {
             </div>
           </div>
         ))}
+      </div>
+       {/* Pagination */}
+       <div className="d-flex justify-content-center mt-4">
+        <PaginationComponent
+          currentPage={page} 
+          totalPages={totalPages} 
+          onPageChange={setPage} 
+          darkMode={darkMode} 
+        />
       </div>
     </div>
   );

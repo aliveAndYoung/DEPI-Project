@@ -126,3 +126,31 @@ body {
     align-items: center;
     justify-content: center;
 }
+
+/* Dark mode pagination */
+.pagination-dark .page-item.active .page-link {
+    background-color: #444 !important; /* Dark gray for active page */
+    border-color: #444 !important;
+    color: white !important;
+    cursor: pointer;
+    box-shadow: none !important;
+
+  }
+  
+  .pagination-dark .page-link {
+    background-color: #333 !important; /* Dark gray for other pages */
+    color: white !important;
+    border-color: #444 !important;
+    cursor: pointer;
+    box-shadow: none !important;
+
+  }
+  
+   .pagination-dark .page-link:hover {
+    background-color: #555 !important; /* Slightly lighter gray on hover */
+    color: white !important;
+    cursor: pointer;
+    box-shadow: none !important;
+
+  }
+  

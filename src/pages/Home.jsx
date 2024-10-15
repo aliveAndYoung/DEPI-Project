@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { fetchNowPlaying, IMG_PATH } from '../API/TMDB';
+import { fetchNowPlaying, IMG_PATH } from '../API/TMDB.jsx';
+import PaginationComponent from '../components/Layout/Pagination.jsx'; // Import the new Pagination component
 
-const Home = () => {
+const Home = ({ darkMode }) => {
+  const [page, setPage] = useState(1);
   const { data, error, isLoading } = useQuery({
-    queryKey: ['nowPlaying'],
+    queryKey: ['nowPlaying', page],
     queryFn: fetchNowPlaying,
   });
+
+  const totalPages = data?.total_pages || 1;
 
   if (isLoading) {
     return (
@@ -21,10 +25,10 @@ const Home = () => {
       </div>
     );
   }
-;
+
   if (error) return <div className="text-center mt-5 text-danger">Error: {error.message}</div>;
 
-  const nowPlayingItems = data || [];
+  const nowPlayingItems = data?.results || [];
 
   return (
     <div className="container mt-4">
@@ -45,6 +49,16 @@ const Home = () => {
         ) : (
           <div className="col-12 text-center">No items available.</div>
         )}
+      </div>
+
+      {/* Pagination */}
+      <div className="d-flex justify-content-center mt-4">
+        <PaginationComponent 
+          currentPage={page} 
+          totalPages={totalPages} 
+          onPageChange={setPage} 
+          darkMode={darkMode} 
+        />
       </div>
     </div>
   );
